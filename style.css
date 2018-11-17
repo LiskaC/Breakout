@@ -1,1 +1,25 @@
+* {
+  color: #353551;
+  font-family: sans-serif;
+}
 
+#gameIntro {
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+  border: 1px solid #353551;
+  text-align: center;
+}
+
+button {
+  border: 1px solid #353551;
+  padding: 5px;
+  
+}
+
+canvas {
+  background: #eee;
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #353551;
+}
