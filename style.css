@@ -14,7 +14,19 @@
 button {
   border: 1px solid #353551;
   padding: 5px;
-  
+  margin: 0 10px;
+  font-size: 14px;
+}
+#getRobot img {
+  width: 33px;
+  height: 33px;
+  padding: 5px 5px 3px 5px;
+}
+
+#getRocket img {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
 }
 
 canvas {
