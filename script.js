@@ -1,31 +1,27 @@
 window.onload = function () {
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d")
-  var x = canvas.width / 2;
-  var y = canvas.height - 60;
-  var dx = 2;
-  var dy = -2;
+  var x;
+  var y;
+  var dx;
+  var dy;
+  var robot = new Image();
+  robot.src = 'images/2drobo.png';
 
 
   var launchPadWidth = 50;
   var launchPadHeight = 10;
-  var launchPadX = (canvas.width - launchPadWidth) / 2;
+  var launchPadX;
 
-  var gameStarted = false;
+  var gameRunning = false;
   document.getElementById("startBtn").onclick = function () {
-    if (gameStarted == true) return;
-    startGame();
-    gameStarted = true;
+    if (gameRunning == true) return;
+    gameRunning = true;
   }
 
   function drawRobot() {
-    var robot = new Image();
-    robot.onload = function () {
-      ctx.drawImage(robot, x - 15, y, 30, 30);
-    }
-    robot.src = 'images/2drobo.png';
+    ctx.drawImage(robot, x - 15, y, 30, 30);
   };
-  drawRobot()
 
   function drawLaunchPad() {
     ctx.beginPath();
@@ -33,54 +29,56 @@ window.onload = function () {
     ctx.fillRect(launchPadX, (canvas.height - launchPadHeight - 20), launchPadWidth, launchPadHeight);
     ctx.closePath();
   };
-  drawLaunchPad();
 
-  function startGame() {
+  function resetGame() {
+    x = canvas.width / 2;
+    y = canvas.height - 60;
+    dx = 2;
+    dy = -2;
+    launchPadX = (canvas.width - launchPadWidth) / 2;
+  }
 
-    function draw() {
-      console.log(y + dy > canvas.height - 30);
-      ctx.clearRect(0, 0, 480, 320);
-      drawRobot();
-      drawLaunchPad();
-      x += dx;
-      y += dy;
+  function draw() {
+    console.log(y + dy > canvas.height - 30);
+    ctx.clearRect(0, 0, 480, 320);
+    drawRobot();
+    drawLaunchPad();
+    if (gameRunning == false) { return; };
+    x += dx;
+    y += dy;
 
-      //hits the sides and top, changes direction
-      if (x + dx < 10 || x + dx > canvas.width) {
-        dx = -dx;
-      };
-      if (y + dy < 0) {
+    //hits the sides and top, changes direction
+    if (x + dx < 10 || x + dx > canvas.width) {
+      dx = -dx;
+    };
+    if (y + dy < 0) {
+      dy = -dy;
+    }
+
+    //hits the launchPad, changes direction
+    else if (y + dy > canvas.height - 60) {
+      if (x > launchPadX && x < launchPadX + launchPadWidth) {
         dy = -dy;
       }
 
-      //hits the launchPad, changes direction
-      else if (y + dy > canvas.height - 60) {
-        if (x > launchPadX && x < launchPadX + launchPadWidth) {
-          dy = -dy;
-        }
-
-        //hits the bottom, game over and back to starting position
-        else if (y + dy > canvas.height - 30) {
-          alert("GAME OVER");
-          ctx.clearRect(0, 0, 480, 320);
-          /*save these in a 'default'/'reset' variable? 
-          gameStarted switch to false and toggle when start button reclicked */
-          x = canvas.width / 2;
-          y = canvas.height - 60;
-          launchPadX = (canvas.width - launchPadWidth) / 2;
-          dy = -2;
-        };
-      };
-
-      //launchPad moves left/right
-      document.onkeydown = function (e) {
-        switch (e.keyCode) {
-          case 37: launchPadX -= 10; break;
-          case 39: launchPadX += 10; break;
-        }
+      //hits the bottom, game over and back to starting position
+      else if (y + dy > canvas.height - 30) {
+        alert("GAME OVER");
+        gameRunning = false;
+        resetGame();
       };
     };
-
-    setInterval(draw, 10);
   };
+
+  //launchPad moves left/right
+  document.onkeydown = function (e) {
+    if (gameRunning == false) { return; };
+    switch (e.keyCode) {
+      case 37: launchPadX -= 10; break;
+      case 39: launchPadX += 10; break;
+    };
+  };
+
+  resetGame();
+  setInterval(draw, 10);
 };
