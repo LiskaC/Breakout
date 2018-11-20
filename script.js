@@ -15,30 +15,17 @@ window.onload = function () {
   var blockHeight = 10;
   var launchPadX;
 
-  var brickRowCount = 3;
-  var brickColumnCount = 5;
+  var brickRowCount = 5;
+  var brickColumnCount = 7;
   var brickPadding = 10;
   var brickOffSetTop = 30;
   var brickOffSetLeft = 30;
   var bricks = [];
-  for (var c = 0; c < brickColumnCount; c++);
-  bricks[c] = [];
-  for (var r = 0; r < brickRowCount; r++);
-  bricks[c][r] =
-    {
-      x: (c * (blockWidth + brickPadding)) + brickOffSetLeft,
-      y: (r * (blockHeight + brickPadding)) + brickOffSetTop
-    };
+
 
   var gameRunning = false;
-  document.getElementById("startBtn").onclick = function () {
-    if (gameRunning == true) {
-      gameRunning = false;
-      resetGame();
-    };
-    gameRunning = true;
-  }
 
+  //switching between robot and rocket  
   function getSprite() {
     return robot;
   }
@@ -51,6 +38,8 @@ window.onload = function () {
     document.getElementById("SpriteTitle").innerText = "Robo";
   }
 
+
+  //drawing all the elements  
   function drawSprite() {
     ctx.drawImage(getSprite(), x - 15, y, 30, 30);
   };
@@ -63,12 +52,31 @@ window.onload = function () {
   };
 
   function drawBricks() {
+    for (var c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (var r = 0; r < brickRowCount; r++) {
+        bricks[c][r] =
+          {
+            x: (c * (blockWidth + brickPadding)) + brickOffSetLeft,
+            y: (r * (blockHeight + brickPadding)) + brickOffSetTop
+          };
+      }
+    }
+
     ctx.beginPath();
     ctx.fillStyle = '#353551';
-    ctx.fillRect((bricks[c][r]["x"]), (bricks[c][r]["y"]), blockWidth, blockHeight);
+    for (var c = 0; c < brickColumnCount; c++) {
+      for (var r = 0; r < brickRowCount; r++) {
+        ctx.fillRect((bricks[c][r].x), (bricks[c][r].y), blockWidth, blockHeight);
+      }
+    }
     ctx.closePath();
+    console.log(bricks)
+
   }
 
+
+  //default positions for the game
   function resetGame() {
     x = canvas.width / 2;
     y = canvas.height - 60;
@@ -77,16 +85,19 @@ window.onload = function () {
     launchPadX = (canvas.width - blockWidth) / 2;
   }
 
+
+  //draw: running the game 
   function draw() {
-    console.log(y + dy > canvas.height - 30);
+    console.log('DIRECTION', y + dy > canvas.height - 30);
     ctx.clearRect(0, 0, 480, 320);
     drawSprite();
     drawLaunchPad();
-    drawBricks();
     if (gameRunning == false) { return; };
     x += dx;
     y += dy;
+    drawBricks();
 
+    //figure how to change (only rocket's) direction
     //hits the sides and top, changes direction
     if (x + dx < 10 || x + dx > canvas.width) {
       dx = -dx;
@@ -118,6 +129,15 @@ window.onload = function () {
       case 39: launchPadX += 10; break;
     };
   };
+
+
+  document.getElementById("startBtn").onclick = function () {
+    if (gameRunning == true) {
+      gameRunning = false;
+      resetGame();
+    };
+    gameRunning = true;
+  }
 
   resetGame();
   setInterval(draw, 10);
