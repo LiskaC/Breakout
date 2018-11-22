@@ -35,3 +35,23 @@ canvas {
   margin: 0 auto;
   border: 1px solid #353551;
 }
+
+#scoreCounter {
+  text-align: center;
+}
+
+table, tr, td {
+  border: 1px solid #353551;
+}
+
+.rank {
+  text-align: center;
+  font-weight: bold;
+  width: 15px;  
+}
+
+.highScore {
+  width: 70px;  
+  font-weight: 500;
+  text-align: left;
+}
