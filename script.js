@@ -12,6 +12,13 @@ window.onload = function () {
   var gameOver = new Image();
   gameOver.src = 'images/GameOver.png';
 
+  /*
+  todo: limit launch pad
+  add sounds (and toggle button)
+  add levels
+  add congrats for top high score if array full
+  add highscore database
+  */
 
   var blockWidth = 50;
   var blockHeight = 10;
