@@ -167,7 +167,7 @@ window.onload = function () {
 
       //hits the bottom, game over and back to starting position
       else if (y + dy > canvas.height - 30) {
-        ctx.drawImage(gameOver, 140, 80, 200, 180);
+        ctx.drawImage(gameOver, 0, 0, 480, 320);
         updateLeaderBoard();
         gameRunning = false;
         clearInterval(interval)
