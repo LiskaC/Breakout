@@ -4,9 +4,9 @@
 }
 
 #gameIntro {
-  width: 300px;
-  height: 200px;
-  margin: 0 auto;
+  width: 400px;
+  height: 190px;
+  margin: 10px auto;
   border: 1px solid #353551;
   text-align: center;
 }
@@ -14,9 +14,14 @@
 button {
   border: 1px solid #353551;
   padding: 5px;
-  margin: 0 10px;
+  margin: 10px 5px 0px 5px;
   font-size: 14px;
 }
+
+button #startBtn {
+  margin: auto;
+}
+
 #getRobot img {
   width: 33px;
   height: 33px;
@@ -36,7 +41,7 @@ canvas {
   border: 1px solid #353551;
 }
 
-#scoreCounter {
+#currentUserScore {
   text-align: center;
 }
 
@@ -47,11 +52,12 @@ table, tr, td {
 .rank {
   text-align: center;
   font-weight: bold;
-  width: 15px;  
+  width: 15px;
+  border-width: 2px;
 }
 
-.highScore {
-  width: 70px;  
+.highScore, .user {
+  width: 90px;  
   font-weight: 500;
   text-align: left;
 }

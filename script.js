@@ -14,10 +14,10 @@ window.onload = function () {
 
   /*
   todo:
-  add names/input to table
   store highscores
-  add sounds (and toggle button)
+  float the scoreboard up
   add levels
+  add sounds (and toggle button)
   add congrats for top high score if array full
   */
 
@@ -37,31 +37,72 @@ window.onload = function () {
   first updating the running score, 
   then storing in highscore array and pushing to table*/
   var score = 0;
-  function updateScore() { document.getElementById("incrementingScore").innerHTML = score; }
+  function updateScore() { document.getElementById("incrementingScore").innerHTML = score; };
 
-  var leaderboard = ["", "", "", "", "", "", "", "", ""];
+  var username;
+
+  var leaderboard = [
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+  ];
+
   function updateLeaderBoard() {
-    leaderboard.unshift(score);
+    leaderboard.unshift({ user: username, boardscore: score });
     if (leaderboard.length > 10) {
       leaderboard.pop();
     }
     leaderboard.sort(function (a, b) {
-      return b - a;
+      return b["boardscore"] - a["boardscore"];
     });
-    document.getElementById("1st").innerHTML = leaderboard[0];
-    document.getElementById("2nd").innerHTML = leaderboard[1];
-    document.getElementById("3rd").innerHTML = leaderboard[2];
-    document.getElementById("4th").innerHTML = leaderboard[3];
-    document.getElementById("5th").innerHTML = leaderboard[4];
-    document.getElementById("6th").innerHTML = leaderboard[5];
-    document.getElementById("7th").innerHTML = leaderboard[6];
-    document.getElementById("8th").innerHTML = leaderboard[7];
-    document.getElementById("9th").innerHTML = leaderboard[8];
-    document.getElementById("10th").innerHTML = leaderboard[9];
+    document.getElementById("1stUser").innerHTML = leaderboard[0]["user"];
+    document.getElementById("1st").innerHTML = leaderboard[0]["boardscore"];
+    document.getElementById("2ndUser").innerHTML = leaderboard[1]["user"];
+    document.getElementById("2nd").innerHTML = leaderboard[1]["boardscore"];
+    document.getElementById("3rdUser").innerHTML = leaderboard[2]["user"];
+    document.getElementById("3rd").innerHTML = leaderboard[2]["boardscore"];
+    document.getElementById("4thUser").innerHTML = leaderboard[3]["user"];
+    document.getElementById("4th").innerHTML = leaderboard[3]["boardscore"];
+    document.getElementById("5thUser").innerHTML = leaderboard[4]["user"];
+    document.getElementById("5th").innerHTML = leaderboard[4]["boardscore"];
+    document.getElementById("6thUser").innerHTML = leaderboard[5]["user"];
+    document.getElementById("6th").innerHTML = leaderboard[5]["boardscore"];
+    document.getElementById("7thUser").innerHTML = leaderboard[6]["user"];
+    document.getElementById("7th").innerHTML = leaderboard[6]["boardscore"];
+    document.getElementById("8thUser").innerHTML = leaderboard[7]["user"];
+    document.getElementById("8th").innerHTML = leaderboard[7]["boardscore"];
+    document.getElementById("9thUser").innerHTML = leaderboard[8]["user"];
+    document.getElementById("9th").innerHTML = leaderboard[8]["boardscore"];
+    document.getElementById("10thUser").innerHTML = leaderboard[9]["user"];
+    document.getElementById("10th").innerHTML = leaderboard[9]["boardscore"];
   }
 
 
   var gameRunning = false;
+
+  //checking for object intersects
+  function intersect(rect1, rect2) {
+    var rect1left = rect1.x
+    var rect1top = rect1.y
+    var rect1right = rect1.x + rect1.width
+    var rect1bottom = rect1.y + rect1.height
+
+    var rect2left = rect2.x
+    var rect2top = rect2.y
+    var rect2right = rect2.x + rect2.width
+    var rect2bottom = rect2.y + rect2.height
+
+    return !(rect1left > rect2right
+      || rect1right < rect2left
+      || rect1top > rect2bottom
+      || rect1bottom < rect2top)
+  }
 
   //switching between robot and rocket  
   function getSprite() {
@@ -74,6 +115,20 @@ window.onload = function () {
   document.getElementById("getRobot").onclick = function () {
     getSprite = function () { return robot };
     document.getElementById("SpriteTitle").innerText = "Robo";
+  }
+
+  function createBricks() {
+    for (var c = 0; c < brickColumnCount; c++) {
+      bricks[c] = [];
+      for (var r = 0; r < brickRowCount; r++) {
+        bricks[c][r] =
+          {
+            x: (c * (blockWidth + brickPaddingSide)) + brickOffSetLeft,
+            y: (r * (blockHeight + brickPaddingVertical)) + brickOffSetTop,
+            status: 1
+          };
+      }
+    }
   }
 
 
@@ -103,20 +158,6 @@ window.onload = function () {
     }
   }
 
-  function createBricks() {
-    for (var c = 0; c < brickColumnCount; c++) {
-      bricks[c] = [];
-      for (var r = 0; r < brickRowCount; r++) {
-        bricks[c][r] =
-          {
-            x: (c * (blockWidth + brickPaddingSide)) + brickOffSetLeft,
-            y: (r * (blockHeight + brickPaddingVertical)) + brickOffSetTop,
-            status: 1
-          };
-      }
-    }
-  }
-
   //default positions for the game
   function resetGame() {
     x = canvas.width / 2;
@@ -137,18 +178,20 @@ window.onload = function () {
       for (var r = 0; r < brickRowCount; r++) {
         var b = bricks[c][r];
 
-        if (x > b.x && x < (b.x + blockWidth) && y > b.y && y < (b.y + blockHeight)) {
-          dy = -dy;
-          b.status = 0;
-          score += 5;
-        };
+        if (b.status == 1) {
+          if (intersect({ x: x, y: y, width: 30, height: 30 }, { x: b.x, y: b.y, width: blockWidth, height: blockHeight })) {
+            //if (x + 30 > b.x && x < (b.x + blockWidth) && y > b.y && y < (b.y + blockHeight)) {
+            dy = -dy;
+            b.status = 0;
+            score += 5;
+          };
+        }
       };
     };
   };
 
   //draw: running the game 
   function draw() {
-    console.log('DIRECTION', y + dy > canvas.height - 30);
     ctx.clearRect(0, 0, 480, 320);
     drawSprite();
     drawLaunchPad();
@@ -169,7 +212,8 @@ window.onload = function () {
 
     //hits the launchPad, changes direction
     else if (y + dy > canvas.height - 60) {
-      if (x > launchPadX && x < launchPadX + blockWidth) {
+      if (intersect({ x: x, y: y, width: 30, height: 20 },
+        { x: launchPadX, y: (canvas.height - blockHeight - 40), width: blockWidth, height: blockHeight })) {
         dy = -dy;
       }
 
@@ -206,9 +250,25 @@ window.onload = function () {
       gameRunning = false;
       resetGame();
     };
-    gameRunning = true;
-  }
+
+    var userInputs = document.getElementById("declareUsername").elements;
+    var usernameInput = userInputs[0]["value"];
+    function updateUsername() { username = usernameInput };
+    updateUsername();
+
+    if (username == "") {
+      alert("DECLARE YOURSELF!");
+      return;
+    } else {
+      document.getElementById("currentUser").innerHTML = (usernameInput + "'s");
+      gameRunning = true;
+    };
+  };
 
   resetGame();
   var interval = setInterval(draw, 10);
 };
+
+
+/* if gamerunning = false can we clear interval 
+and set interval when the start button is clicked?*/
