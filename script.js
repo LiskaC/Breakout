@@ -13,11 +13,12 @@ window.onload = function () {
   gameOver.src = 'images/GameOver.png';
 
   /*
-  todo: limit launch pad
+  todo:
+  add names/input to table
+  store highscores
   add sounds (and toggle button)
   add levels
   add congrats for top high score if array full
-  add highscore database
   */
 
   var blockWidth = 50;
@@ -178,7 +179,7 @@ window.onload = function () {
         updateLeaderBoard();
         gameRunning = false;
         clearInterval(interval)
-        setTimeout(function () { interval = setInterval(draw, 10); }, 5000)
+        setTimeout(function () { interval = setInterval(draw, 10); }, 3000)
         resetGame();
       };
     };
@@ -192,8 +193,10 @@ window.onload = function () {
   document.onkeydown = function (e) {
     if (gameRunning == false) { return; };
     switch (e.keyCode) {
-      case 37: launchPadX -= 10; break;
-      case 39: launchPadX += 10; break;
+      case 37:
+        if (launchPadX > 0) { launchPadX -= 10 }; break;
+      case 39:
+        if (launchPadX < canvas.width - blockWidth) { launchPadX += 10 }; break;
     };
   };
 
