@@ -12,48 +12,30 @@
 </head>
 
 <body>
-  <div id="gameIntro">
-    <h1><span id="SpriteTitle">Robo</span> BreakOut</h1>
-    <form id="declareUsername"> DECLARE YOURSELF:
-      <input type="text" name="usernameInput">
-    </form>
-    <button id="getRobot"><img src="images/2dRobo.png"></button>
-    <button id="getRocket"><img src="images/rocket.png"></button>
-    <button id="startBtn">Launch!</button>
-  </div>
 
-  <div id="gameWindow">
-    <canvas id="myCanvas" width="480" height="320"></canvas>
-  </div>
-
-  <div id="currentUserScore">
-    <span>
-      <h3>
-        <span id="currentUser"></span>
-        <span id="scoreCounter">Score: <span id="incrementingScore"></span></span>
-      </h3>
-    </span>
-  </div>
-
-  <div>
-    <table id="LeaderBoard">
+  <div id="leaderBoard">
+    <table>
       <tr>
         <td class="rank">1</td>
         <td class="user" id="1stUser"></td>
         <td class="highScore" id="1st"></td>
-
+      </tr>
+      <tr>
         <td class="rank">2</td>
         <td class="user" id="2ndUser"></td>
         <td class="highScore" id="2nd"></td>
-
+      </tr>
+      <tr>
         <td class="rank">3</td>
         <td class="user" id="3rdUser"></td>
         <td class="highScore" id="3rd"></td>
-
+      </tr>
+      <tr>
         <td class="rank">4</td>
         <td class="user" id="4thUser"></td>
         <td class="highScore" id="4th"></td>
-
+      </tr>
+      <tr>
         <td class="rank">5</td>
         <td class="user" id="5thUser"></td>
         <td class="highScore" id="5th"></td>
@@ -62,25 +44,55 @@
         <td class="rank">6</td>
         <td class="user" id="6thUser"></td>
         <td class="highScore" id="6th"></td>
-
+      </tr>
+      <tr>
         <td class="rank">7</td>
         <td class="user" id="7thUser"></td>
         <td class="highScore" id="7th"></td>
-
+      </tr>
+      <tr>
         <td class="rank">8</td>
         <td class="user" id="8thUser"></td>
         <td class="highScore" id="8th"></td>
-
+      </tr>
+      <tr>
         <td class="rank">9</td>
         <td class="user" id="9thUser"></td>
         <td class="highScore" id="9th"></td>
-
+      </tr>
+      <tr>
         <td class="rank">10</td>
         <td class="user" id="10thUser"></td>
         <td class="highScore" id="10th"></td>
       </tr>
     </table>
   </div>
+
+  <div id="headerCanvasScorecount">
+    <div id="gameIntro">
+      <h1><span id="SpriteTitle">Robo</span> BreakOut</h1>
+      <form id="declareUsername"> DECLARE YOURSELF:
+        <input type="text" name="usernameInput">
+      </form>
+      <button id="getRobot"><img src="images/2dRobo.png"></button>
+      <button id="getRocket"><img src="images/rocket.png"></button>
+      <button id="startBtn">Launch!</button>
+    </div>
+
+    <div id="gameWindow">
+      <canvas id="myCanvas" width="480" height="320"></canvas>
+    </div>
+
+    <div id="currentUserScore">
+      <span>
+        <h3>
+          <span id="currentUser"></span>
+          <span id="scoreCounter">Score: <span id="incrementingScore"></span></span>
+        </h3>
+      </span>
+    </div>
+  </div>
+
 </body>
 
 </html>
