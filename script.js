@@ -11,12 +11,13 @@ window.onload = function () {
   rocket.src = 'images/rocket.png';
   var gameOver = new Image();
   gameOver.src = 'images/GameOver.png';
+  var nextLevel = new Image();
+  nextLevel.src = 'images/NextLevel.png';
 
   /*
   todo:
   store highscores
-  float the scoreboard up
-  add levels
+  fix levels
   add sounds (and toggle button)
   add congrats for top high score if array full
   */
@@ -25,10 +26,20 @@ window.onload = function () {
   var blockHeight = 10;
   var launchPadX;
 
+  /* var bricksLevel1 = {
+    this.ColumnCount: 5;
+  }
+    var bricksLevel2 = {
+    this.ColumnCount: 6;
+  }
+    var bricksLevel3 = {
+    this.ColumnCount: 7;
+  }*/
+
   var brickRowCount = 5;
   var brickColumnCount = 5;
   var brickPaddingVertical = 10;
-  var brickPaddingSide = 40;
+  var brickPaddingSide = (410 - (brickColumnCount * 50)) / (brickColumnCount - 1);
   var brickOffSetTop = 30;
   var brickOffSetLeft = 30;
   var bricks = [];
@@ -168,9 +179,29 @@ window.onload = function () {
 
     createBricks()
 
-    score = 0;
-
   }
+
+
+  /*randomly cut out when still 3 bricks with status: 1, and did not increment columns
+  
+    function levelUp() {
+      for (var c = 0; c < brickColumnCount; c++) {
+        for (var r = 0; r < brickRowCount; r++) {
+          var b = bricks[c][r];
+  
+          if (b.status == 1) { return; }
+          else {
+            ctx.drawImage(nextLevel, 0, 0, 480, 320);
+            gameRunning = false;
+            clearInterval(interval)
+            setTimeout(function () { interval = setInterval(draw, 10); }, 3000)
+            resetGame();
+            brickColumnCount += 1;
+          }
+        }
+      }
+    };
+    */
 
   //detecting when sprite is in the space of a brick;
   function collisionDetection() {
@@ -180,7 +211,6 @@ window.onload = function () {
 
         if (b.status == 1) {
           if (intersect({ x: x, y: y, width: 30, height: 30 }, { x: b.x, y: b.y, width: blockWidth, height: blockHeight })) {
-            //if (x + 30 > b.x && x < (b.x + blockWidth) && y > b.y && y < (b.y + blockHeight)) {
             dy = -dy;
             b.status = 0;
             score += 5;
@@ -188,6 +218,7 @@ window.onload = function () {
         }
       };
     };
+    levelUp();
   };
 
   //draw: running the game 
@@ -225,6 +256,7 @@ window.onload = function () {
         clearInterval(interval)
         setTimeout(function () { interval = setInterval(draw, 10); }, 3000)
         resetGame();
+        score = 0;
       };
     };
 
