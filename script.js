@@ -14,9 +14,10 @@ window.onload = function () {
   var nextLevel = new Image();
   nextLevel.src = 'images/nextLevel.png';
 
+  drawLeaderboard()
+
   /*
   todo:
-  store highscores
   fix levels
   add sounds (and toggle button)
   add congrats for top high score if array full
@@ -52,7 +53,7 @@ window.onload = function () {
 
   var username;
 
-  var leaderboard = [
+  var emptyLeaderboard = [
     { user: "", boardscore: "" },
     { user: "", boardscore: "" },
     { user: "", boardscore: "" },
@@ -64,14 +65,9 @@ window.onload = function () {
     { user: "", boardscore: "" },
   ];
 
-  function updateLeaderBoard() {
-    leaderboard.unshift({ user: username, boardscore: score });
-    if (leaderboard.length > 10) {
-      leaderboard.pop();
-    }
-    leaderboard.sort(function (a, b) {
-      return b["boardscore"] - a["boardscore"];
-    });
+  function drawLeaderboard() {
+    var leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+    if (!leaderboard) leaderboard = emptyLeaderboard;
     document.getElementById("1stUser").innerHTML = leaderboard[0]["user"];
     document.getElementById("1st").innerHTML = leaderboard[0]["boardscore"];
     document.getElementById("2ndUser").innerHTML = leaderboard[1]["user"];
@@ -92,6 +88,23 @@ window.onload = function () {
     document.getElementById("9th").innerHTML = leaderboard[8]["boardscore"];
     document.getElementById("10thUser").innerHTML = leaderboard[9]["user"];
     document.getElementById("10th").innerHTML = leaderboard[9]["boardscore"];
+  }
+
+  function updateLeaderBoard() {
+    var leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+    if (!leaderboard) leaderboard = emptyLeaderboard;
+
+    leaderboard.unshift({ user: username, boardscore: score });
+    if (leaderboard.length > 10) {
+      leaderboard.pop();
+    }
+    leaderboard.sort(function (a, b) {
+      return b["boardscore"] - a["boardscore"];
+    });
+
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+    drawLeaderboard()
   }
 
 
@@ -182,26 +195,30 @@ window.onload = function () {
   }
 
 
-  /*randomly cut out when still 3 bricks with status: 1, and did not increment columns
-  
-    function levelUp() {
-      for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
-          var b = bricks[c][r];
-  
-          if (b.status == 1) { return; }
-          else {
-            ctx.drawImage(nextLevel, 0, 0, 480, 320);
-            gameRunning = false;
-            clearInterval(interval)
-            setTimeout(function () { interval = setInterval(draw, 10); }, 3000)
-            resetGame();
-            brickColumnCount += 1;
-          }
-        }
-      }
+  function levelUp() {
+    var statusCount = 0
+
+    for (var c = 0; c < brickColumnCount; c++) {
+      for (var r = 0; r < brickRowCount; r++) {
+        var b = bricks[c][r];
+        statusCount += b.status
+      };
     };
-    */
+
+    if (statusCount === 0) {
+      ctx.drawImage(nextLevel, 0, 0, 480, 320);
+      gameRunning = false;
+      clearInterval(interval)
+      setTimeout(function () { interval = setInterval(draw, 14); }, 3000)
+      if (brickColumnCount < 7) {
+        brickColumnCount += 1;
+        //for some reason the padding isnt updating
+      };
+      resetGame();
+    };
+  };
+
+
 
   //detecting when sprite is in the space of a brick;
   function collisionDetection() {
@@ -255,7 +272,7 @@ window.onload = function () {
         updateLeaderBoard();
         gameRunning = false;
         clearInterval(interval)
-        setTimeout(function () { interval = setInterval(draw, 10); }, 3000)
+        setTimeout(function () { interval = setInterval(draw, 14); }, 3000)
         resetGame();
         score = 0;
       };
@@ -299,7 +316,7 @@ window.onload = function () {
   };
 
   resetGame();
-  var interval = setInterval(draw, 10);
+  var interval = setInterval(draw, 14);
 };
 
 

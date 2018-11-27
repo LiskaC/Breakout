@@ -55,8 +55,12 @@ canvas {
   text-align: center;
 }
 
-table, tr, td {
+table, th, tr, td {
   border: 1px solid #353551;
+}
+
+thead {
+  font-weight: bold;
 }
 
 .rank {
