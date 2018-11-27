@@ -6,13 +6,13 @@ window.onload = function () {
   var dx;
   var dy;
   var robot = new Image();
-  robot.src = 'images/2drobo.png';
+  robot.src = 'images/2dRobo.png';
   var rocket = new Image();
   rocket.src = 'images/rocket.png';
   var gameOver = new Image();
   gameOver.src = 'images/GameOver.png';
   var nextLevel = new Image();
-  nextLevel.src = 'images/NextLevel.png';
+  nextLevel.src = 'images/nextLevel.png';
 
   /*
   todo:
@@ -220,6 +220,7 @@ window.onload = function () {
     };
     levelUp();
   };
+
 
   //draw: running the game 
   function draw() {
