@@ -209,7 +209,7 @@ window.onload = function () {
       ctx.drawImage(nextLevel, 0, 0, 480, 320);
       gameRunning = false;
       clearInterval(interval)
-      setTimeout(function () { interval = setInterval(draw, 14); }, 3000)
+      setTimeout(function () { interval = setInterval(draw, 13); }, 3000)
       if (brickColumnCount < 7) {
         brickColumnCount += 1;
         //for some reason the padding isnt updating
@@ -272,7 +272,7 @@ window.onload = function () {
         updateLeaderBoard();
         gameRunning = false;
         clearInterval(interval)
-        setTimeout(function () { interval = setInterval(draw, 14); }, 3000)
+        setTimeout(function () { interval = setInterval(draw, 13); }, 2000)
         resetGame();
         score = 0;
       };
@@ -316,7 +316,7 @@ window.onload = function () {
   };
 
   resetGame();
-  var interval = setInterval(draw, 14);
+  var interval = setInterval(draw, 13);
 };
 
 
