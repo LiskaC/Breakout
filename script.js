@@ -197,30 +197,28 @@ window.onload = function () {
 
   }
 
-  /*
-    function levelUp() {
-      var statusCount = 0
-  
-      for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
-          var b = bricks[c][r];
-          statusCount += b.status
-        };
-      };
-  
-      if (statusCount === 0) {
-        ctx.drawImage(nextLevel, 0, 0, 480, 320);
-        gameRunning = false;
-        clearInterval(interval)
-        setTimeout(function () { interval = setInterval(draw, 13); }, 3000)
-        if (brickColumnCount < 7) {
-          brickColumnCount += 1;
-          //for some reason the padding isnt updating
-        };
-        resetGame();
+  function levelUp() {
+    var statusCount = 0
+
+    for (var c = 0; c < brickColumnCount; c++) {
+      for (var r = 0; r < brickRowCount; r++) {
+        var b = bricks[c][r];
+        statusCount += b.status
       };
     };
-    */
+
+    if (statusCount === 0) {
+      ctx.drawImage(nextLevel, 0, 0, 480, 320);
+      gameRunning = false;
+      clearInterval(interval)
+      setTimeout(function () { interval = setInterval(draw, 13); }, 3000)
+      if (brickColumnCount < 7) {
+        brickColumnCount += 1;
+        //for some reason the padding isnt updating
+      };
+      resetGame();
+    };
+  };
 
 
 
@@ -239,7 +237,7 @@ window.onload = function () {
         }
       };
     };
-    // levelUp();
+    levelUp();
   };
 
 
