@@ -14,6 +14,21 @@ window.onload = function () {
   var nextLevel = new Image();
   nextLevel.src = 'images/nextLevel.png';
 
+
+
+  var emptyLeaderboard = [
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+    { user: "", boardscore: "" },
+  ];
+
   drawLeaderboard()
 
   /*
@@ -52,18 +67,6 @@ window.onload = function () {
   function updateScore() { document.getElementById("incrementingScore").innerHTML = score; };
 
   var username;
-
-  var emptyLeaderboard = [
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-    { user: "", boardscore: "" },
-  ];
 
   function drawLeaderboard() {
     var leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
