@@ -21,6 +21,8 @@ window.onload = function () {
   overSound.src = 'sounds/robotDeath.mp3';
   var levelUpSound = new Audio();
   levelUpSound.src = 'sounds/activating.mp3';
+  var backgroundTrack = new Audio();
+  backgroundTrack.src = 'sounds/theElectricityBill.mp3';
 
 
 
@@ -41,7 +43,6 @@ window.onload = function () {
 
   /*
   todo:`
-  add sounds (and toggle button)
   add congrats for top high score if array full
   */
 
@@ -214,6 +215,7 @@ window.onload = function () {
       };
     };
 
+    //when all bricks broken level up
     if (statusCount === 0) {
       ctx.drawImage(nextLevel, 0, 0, 480, 320);
       levelUpSound.play();
@@ -223,7 +225,6 @@ window.onload = function () {
       if (brickColumnCount < 7) {
         brickColumnCount += 1;
         brickPaddingSide = (410 - (brickColumnCount * 50)) / (brickColumnCount - 1);
-        //for some reason the padding isnt updating
       };
       resetGame();
     };
@@ -262,7 +263,7 @@ window.onload = function () {
     x += dx;
     y += dy;
 
-    //figure how to change (only rocket's) direction
+    //figure how to flip rocket's direction
     //hits the sides and top, changes direction
     if (x + dx < 10 || x + dx > canvas.width) {
       dx = -dx;
@@ -322,11 +323,10 @@ window.onload = function () {
 
     if (username == "") {
       alert("DECLARE YOURSELF!");
-      return;
+      return; //requires username
     } else {
       document.getElementById("currentUser").innerHTML = (usernameInput + "'s");
-      gameRunning = true;
-
+      gameRunning = true; //launch
       blastOff.play();
     };
   };
@@ -336,5 +336,5 @@ window.onload = function () {
 };
 
 
-/* if gamerunning = false can we clear interval
+/* if gamerunning = false can I clear interval
 and set interval when the start button is clicked?*/
