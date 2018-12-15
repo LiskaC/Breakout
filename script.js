@@ -13,6 +13,14 @@ window.onload = function () {
   gameOver.src = 'images/GameOver.png';
   var nextLevel = new Image();
   nextLevel.src = 'images/nextLevel.png';
+  var blastOff = new Audio();
+  blastOff.src = 'sounds/blastOff.mp3';
+  var smash = new Audio();
+  smash.src = 'sounds/quietSnip.mp3';
+  var overSound = new Audio();
+  overSound.src = 'sounds/robotDeath.mp3';
+  var levelUpSound = new Audio();
+  levelUpSound.src = 'sounds/activating.mp3';
 
 
 
@@ -32,8 +40,7 @@ window.onload = function () {
   drawLeaderboard()
 
   /*
-  todo:
-  fix levels
+  todo:`
   add sounds (and toggle button)
   add congrats for top high score if array full
   */
@@ -209,11 +216,13 @@ window.onload = function () {
 
     if (statusCount === 0) {
       ctx.drawImage(nextLevel, 0, 0, 480, 320);
+      levelUpSound.play();
       gameRunning = false;
       clearInterval(interval)
       setTimeout(function () { interval = setInterval(draw, 13); }, 3000)
       if (brickColumnCount < 7) {
         brickColumnCount += 1;
+        brickPaddingSide = (410 - (brickColumnCount * 50)) / (brickColumnCount - 1);
         //for some reason the padding isnt updating
       };
       resetGame();
@@ -233,6 +242,7 @@ window.onload = function () {
             dy = -dy;
             b.status = 0;
             score += 5;
+            smash.play();
           };
         }
       };
@@ -271,12 +281,14 @@ window.onload = function () {
       //hits the bottom, game over and back to starting position
       else if (y + dy > canvas.height - 30) {
         ctx.drawImage(gameOver, 0, 0, 480, 320);
+        overSound.play();
         updateLeaderBoard();
         gameRunning = false;
         clearInterval(interval)
-        setTimeout(function () { interval = setInterval(draw, 13); }, 2000)
+        setTimeout(function () { interval = setInterval(draw, 13); }, 4000)
         resetGame();
         score = 0;
+        brickColumnCount = 5;
       };
     };
 
@@ -314,6 +326,8 @@ window.onload = function () {
     } else {
       document.getElementById("currentUser").innerHTML = (usernameInput + "'s");
       gameRunning = true;
+
+      blastOff.play();
     };
   };
 
@@ -322,5 +336,5 @@ window.onload = function () {
 };
 
 
-/* if gamerunning = false can we clear interval 
+/* if gamerunning = false can we clear interval
 and set interval when the start button is clicked?*/
